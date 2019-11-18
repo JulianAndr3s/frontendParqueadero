@@ -1,1 +1,42 @@
-<p>buscar-vehiculo works!</p>
+<div class="card">
+
+    <div class="card-body">
+        <div class="form-group col-md-6">
+            <div class="form-group">
+                <label for="id">Placa a buscar: </label>
+                <input type="text" class="form-control" id="placa" name="placa" [(ngModel)]="placa">
+            </div>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-primary" (click)="buscar()">Buscar</button>
+        <hr>
+        <blockquote class="blockquote mb-0">
+
+            <div *ngIf="vehiculo != null" class="">
+                <p>Vehiculo encontrado</p>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Propietario</th>
+                            <th scope="col">Placa</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Tipo Vehiculo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{vehiculo.id}}</th>
+                            <td>{{vehiculo.propietario}}</td>
+                            <td>{{vehiculo.placa}}</td>
+                            <td>{{vehiculo.telefono}}</td>
+                            <td>{{vehiculo.estado}}</td>
+                            <td>{{vehiculo.tipoVehiculo.tipo}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </blockquote>
+    </div>
+</div>

@@ -1,1 +1,155 @@
-<p>listar-vehiculos works!</p>
+<div class="card">
+    <div class="card-header">
+        <a class="btn btn-outline-success" [routerLink]="['/ingresar-vehiculo']" routerLinkActive="active">Ingresar vehículo</a>
+    </div>
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <div *ngIf="vehiculos.length == 0">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Lo siento! </strong>No hay vehiculos en la base de datos.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                </div>
+            </div>
+
+            <div *ngIf="vehiculos.length > 0" class="">
+                <p>Vehículos en sistema</p>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Propietario</th>
+                            <th scope="col">Placa</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Tipo Vehículo</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <!-- Ngif Activo o Inactivo-->
+                    <tbody class="tbody-primary">
+                        <tr *ngFor="let vehiculo of vehiculos">
+                            <th scope="row">{{vehiculo.id}}</th>
+                            <td>{{vehiculo.propietario}}</td>
+                            <td>{{vehiculo.placa}}</td>
+                            <td>{{vehiculo.telefono}}</td>
+                            <div *ngIf="vehiculo.estado == 'Activo'">
+                                <td class="table-success">{{vehiculo.estado}}</td>
+                            </div>
+                            <div *ngIf="vehiculo.estado == 'Inactivo'">
+                                <td class="table-danger">{{vehiculo.estado}}</td>
+                            </div>
+                            <td>{{vehiculo.tipoVehiculo.tipo}}</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#myModal2" (click)="showModal(vehiculo)">Editar</button>
+                                <button type="button" class="btn btn-outline-danger btn-lg" data-toggle="modal" data-target="#myModal" (click)="showModal(vehiculo)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </blockquote>
+    </div>
+</div>
+
+
+
+<!-- The Modal Eliminar-->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                ¿Está seguro que desea eliminar la información de {{vehiculoSeleccionado.propietario | uppercase}} ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal" (click)="eliminar(vehiculoSeleccionado.id)">Aceptar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- The Modal Editar-->
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Editar</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        Actualizar el perfil de {{vehiculoSeleccionado.propietario}}
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p>Favor diligenciar el formulario</p>
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="nombres">Propietario</label>
+                                        <input type="text" class="form-control" id="nombres" name="nombre" [(ngModel)]="vehiculoActualizar.propietario" [value]="vehiculoSeleccionado.propietario" minlength="3" #nombres="ngModel" required>
+                                        <div class="alert alert-danger" *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)">
+                                            <div *ngIf="nombres?.errors.required">Nombre es requerido</div>
+                                            <div *ngIf="nombres?.errors.minlength">Nombre debe terner al menos 3 caracteres</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="apellido">Placa</label>
+                                        <input type="text" class="form-control" id="placas" name="placa" [(ngModel)]="vehiculoActualizar.placa" [value]="vehiculoSeleccionado.placa" minlength="6" #placas="ngModel" required>
+                                        <div class="alert alert-danger" *ngIf="placas.invalid && (placas.dirty || placas.touched)">
+                                            <div *ngIf="placas?.errors.required">Placas es requerido</div>
+                                            <div *ngIf="placas?.errors.minlength">Placas debe tener al menos 3 caracteres</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="text" class="form-control" id="telefono" name="telefono" [(ngModel)]="vehiculoActualizar.telefono" [value]="vehiculoSeleccionado.telefono">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="form-group">
+                                            <label for="id">Tipo de Vehículo</label>
+                                            <select class="form-control" [(ngModel)]="id" id="id" name="id">
+                                                        <option *ngFor="let tipovehiculo of tipovehiculos" [value]="tipovehiculo.id" >{{tipovehiculo.tipo}}</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="estado">Estado</label>
+                                        <input type="text" class="form-control" id="estado" name="estado" [(ngModel)]="vehiculoActualizar.estado">
+                                    </div>
+                                </div>
+                            </form>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" (click)="actualizar(vehiculoSeleccionado.id)">Aceptar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

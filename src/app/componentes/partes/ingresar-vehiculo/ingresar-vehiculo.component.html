@@ -1,1 +1,62 @@
-<p>ingresar-vehiculo works!</p>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/listar-vehiculos']">Listar</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Ingresar</li>
+    </ol>
+</nav>
+
+<div class="card">
+    <div class="card-header">
+        Registrar vehículo
+    </div>
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <p>Favor diligenciar el formulario</p>
+            <form (ngSubmit)="insert()">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="nombres">Propietario</label>
+                        <input type="text" class="form-control" id="nombres" name="nombre" [(ngModel)]="vehiculo.propietario" minlength="3" #nombres="ngModel" required>
+                        <div class="alert alert-danger" *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)">
+                            <div *ngIf="nombres?.errors.required">Nombre es requerido</div>
+                            <div *ngIf="nombres?.errors.minlength">Nombre debe terner al menos 3 caracteres</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="apellido">Placa</label>
+                        <input type="text" class="form-control" id="placas" name="placa" [(ngModel)]="vehiculo.placa" minlength="6" #placas="ngModel" required>
+                        <div class="alert alert-danger" *ngIf="placas.invalid && (placas.dirty || placas.touched)">
+                            <div *ngIf="placas?.errors.required">Placas es requerido</div>
+                            <div *ngIf="placas?.errors.minlength">Placas debe tener al menos 6 caracteres</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono" name="telefono" [(ngModel)]="vehiculo.telefono">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label for="id">Tipo de Vehículo</label>
+                            <select class="form-control" [(ngModel)]="id" id="id" name="id">
+                                <option *ngFor="let tipoVehiculo of tipoVehiculos" [value]="tipoVehiculo.id" >{{tipoVehiculo.tipo}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="estado">Estado</label>
+                        <select class="form-control" [(ngModel)]="vehiculo.estado" id="estado" name="estado">
+                            <option [value]="'Activo'" > Activo </option>
+                            <option [value]="'Inactivo'" > Inactivo </option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
+        </blockquote>
+    </div>
+</div>
