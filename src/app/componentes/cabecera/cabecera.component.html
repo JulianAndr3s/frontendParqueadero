@@ -6,13 +6,16 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Principal <span class="sr-only">(current)</span></a>
+                <a class="nav-link" [routerLink]="['/principal']" routerLinkActive="active">Principal <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Vehículos</a>
+                <a class="nav-link" [routerLink]="['/listar-vehiculos']" routerLinkActive="active">Vehículos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Buscar</a>
+                <a class="nav-link" [routerLink]="['/ingresar-vehiculo']" routerLinkActive="active">Ingresar Vehículo</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/buscar-vehiculo']" routerLinkActive="active">Buscar</a>
             </li>
         </ul>
         <span class="navbar-text">
